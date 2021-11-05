@@ -19,7 +19,7 @@ FreeDelayAudioProcessor::FreeDelayAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), apvts(*this, &undoManager, "parameter", getParameterLayout())
 #endif
 {
 }
@@ -181,6 +181,19 @@ void FreeDelayAudioProcessor::setStateInformation (const void* data, int sizeInB
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout FreeDelayAudioProcessor::getParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+
+    layout.add(std::make_unique<juce::AudioParameterFloat>(
+        "gain",
+        "gain",
+        0.0f,
+        1.0f,
+        0.5f));
+    return layout;
 }
 
 //==============================================================================
