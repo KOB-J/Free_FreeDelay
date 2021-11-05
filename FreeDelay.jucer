@@ -3,7 +3,15 @@
 <JUCERPROJECT id="HvNF4h" name="FreeDelay" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="rsFsi6" name="FreeDelay">
-    <GROUP id="{ACB5D93D-4EFC-9B26-4798-EA100F7F9C77}" name="GUI"/>
+    <GROUP id="{ACB5D93D-4EFC-9B26-4798-EA100F7F9C77}" name="GUI">
+      <FILE id="Wo7wkR" name="RotarySlider.cpp" compile="1" resource="0"
+            file="Source/RotarySlider.cpp"/>
+      <FILE id="GMDgRs" name="RotarySlider.h" compile="0" resource="0" file="Source/RotarySlider.h"/>
+      <FILE id="kwkn9z" name="RotarySliderLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/RotarySliderLookAndFeel.cpp"/>
+      <FILE id="CwzK8m" name="RotarySliderLookAndFeel.h" compile="0" resource="0"
+            file="Source/RotarySliderLookAndFeel.h"/>
+    </GROUP>
     <GROUP id="{0DAE19A6-2976-DF20-E0D5-F72BB1CD92C7}" name="DSP">
       <FILE id="RHH0gR" name="Delay.cpp" compile="1" resource="0" file="Source/Delay.cpp"/>
       <FILE id="lMe31K" name="Delay.h" compile="0" resource="0" file="Source/Delay.h"/>

@@ -1,0 +1,33 @@
+/*
+  ==============================================================================
+
+    RotarySliderLookAndFeel.h
+    Created: 5 Nov 2021 1:52:04pm
+    Author:  dev
+
+  ==============================================================================
+*/
+
+#pragma once
+
+#include <JuceHeader.h>
+
+class RotarySliderLookAndFeel : public juce::LookAndFeel_V4
+{
+public:
+    RotarySliderLookAndFeel();
+    ~RotarySliderLookAndFeel();
+
+    juce::Slider::SliderLayout getSliderLayout(juce::Slider& slider) override;
+
+    void drawRotarySlider(juce::Graphics&, int x, int y, int width, int height,
+        float sliderPosProportional, float rotaryStartAngle,
+        float rotaryEndAngle, juce::Slider&) override;
+
+    juce::Label* createSliderTextBox(juce::Slider& slider) override;
+
+private:
+    juce::Colour blue = juce::Colour::fromFloatRGBA(0.43f, 0.83f, 1.0f, 1.0f);
+    juce::Colour grey = juce::Colour::fromFloatRGBA(0.42f, 0.42f, 0.42f, 1.0f);
+    juce::Colour blackGrey = juce::Colour::fromFloatRGBA(0.2f, 0.2f, 0.2f, 1.0f);
+};
