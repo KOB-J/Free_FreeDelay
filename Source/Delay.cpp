@@ -10,7 +10,7 @@
 
 #include "Delay.h"
 
-Delay::Delay(): delayBuffer_(2, 1)
+Delay::Delay(): delayBuffer(2, 1)
 {
     delayLength = 0.5;
     dryMix = 1.0;
@@ -37,8 +37,8 @@ void Delay::prepare(double& sampleRate, int& samplesPerBlock)
     delayBufferLength = (int)(2.0 * sampleRate);
     if (delayBufferLength < 1)
         delayBufferLength = 1;
-    delayBuffer_.setSize(2, delayBufferLength);
-    delayBuffer_.clear();
+    delayBuffer.setSize(2, delayBufferLength);
+    delayBuffer.clear();
 
     delayReadPosition = (int)(delayWritePosition - (delayLength * sampleRate)
         + delayBufferLength) % delayBufferLength;
@@ -61,7 +61,7 @@ void Delay::process(juce::AudioBuffer<float>& buffer, float& delayLengthParamete
     {
         float* channelData = buffer.getWritePointer(channel);
 
-        float* delayData = delayBuffer_.getWritePointer(juce::jmin(channel, delayBuffer_.getNumChannels() - 1));
+        float* delayData = delayBuffer.getWritePointer(juce::jmin(channel, delayBuffer.getNumChannels() - 1));
 
         blockDelayReadPosition = delayReadPosition;
         blockDelayWritePosition = delayWritePosition;
@@ -90,5 +90,5 @@ void Delay::process(juce::AudioBuffer<float>& buffer, float& delayLengthParamete
 
 void Delay::reset()
 {
-    delayBuffer_.clear();
+    delayBuffer.clear();
 }

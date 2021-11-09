@@ -27,8 +27,7 @@ public:
     void reset();
 
 private:
-
-    juce::AudioSampleBuffer delayBuffer_;
+    juce::AudioSampleBuffer delayBuffer;
     int delayBufferLength;
     int delayReadPosition, delayWritePosition;
 
