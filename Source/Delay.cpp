@@ -56,7 +56,7 @@ void Delay::process(juce::AudioBuffer<float>& buffer, float& delayLengthParamete
     const int numChannels = buffer.getNumChannels();    
     const int numSamples = buffer.getNumSamples();
     int channel, blockDelayReadPosition, blockDelayWritePosition;
-
+    //TODO Interpolation
     for (channel = 0; channel < numChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer(channel);

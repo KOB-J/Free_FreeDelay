@@ -24,8 +24,6 @@ public:
         float sliderPosProportional, float rotaryStartAngle,
         float rotaryEndAngle, juce::Slider&) override;
 
-    juce::Label* createSliderTextBox(juce::Slider& slider) override;
-
 private:
     juce::Colour blue = juce::Colour::fromFloatRGBA(0.43f, 0.83f, 1.0f, 1.0f);
     juce::Colour grey = juce::Colour::fromFloatRGBA(0.42f, 0.42f, 0.42f, 1.0f);
