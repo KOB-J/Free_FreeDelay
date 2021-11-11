@@ -8,3 +8,7 @@ To play with, open the FreeDelay.jucer file with projucer, and build the project
 
 ![caption](https://github.com/KOB-J/Free_FreeDelay/blob/main/img/FreeDelay_gif.gif)
 
+Youtube video:
+
+[![Watch the video](https://img.youtube.com/vi/T1XJKs8_x08/maxresdefault.jpg)](https://www.youtube.com/watch?v=T1XJKs8_x08)
+
