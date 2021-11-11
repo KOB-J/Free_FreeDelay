@@ -62,8 +62,8 @@ private:
     juce::AudioProcessorValueTreeState apvts;
     juce::UndoManager undoManager;
 
-    //std::unique_ptr<Delay> delay;
     Delay delay;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FreeDelayAudioProcessor)
 };

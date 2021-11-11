@@ -78,7 +78,7 @@ void Delay::process(juce::AudioBuffer<float>& buffer, float& delayLengthParamete
 
             float interpolatedSample = delayData[blockDelayReadPosition];
 
-            //******** Uncomment, if you want to use intermolation fonction    ***********************
+            //******** Uncomment, if you want to use interpolation fonction    ***********************
             //int delayReadPosition_x = (int)(blockDelayWritePosition - (delayLenghtSmoothed * delaySampleRate) + delayBufferLength) % delayBufferLength;
             //int delayReadPosition_x1 = (int)(blockDelayWritePosition - (delayLenghtSmoothed * delaySampleRate) + 1 + delayBufferLength) % delayBufferLength;
             //float delayReadPositionInterleave = delayReadPositionFloat - delayReadPosition_x;
@@ -90,7 +90,6 @@ void Delay::process(juce::AudioBuffer<float>& buffer, float& delayLengthParamete
             float centerGain = 1.2f;
             out = (dryMix + (dryMix * centerGain * juce::jmin<float>(dryMix, wetMix))) * in
                 + (wetMix + (wetMix * centerGain * juce::jmin<float>(dryMix, wetMix))) * interpolatedSample;
-            //out = dryMix * in + wetMix * interpolatedSample;
 
             if (delayLenghtSmoothed != delayLength)
                 interpolatedSample = 0.0f;

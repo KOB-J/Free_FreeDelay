@@ -51,15 +51,12 @@ void RotarySlider::paint(juce::Graphics& g)
 void RotarySlider::mouseDown(const juce::MouseEvent& event)
 {
     juce::Slider::mouseDown(event);
-
     setMouseCursor(juce::MouseCursor::NoCursor);
 }
 
 void RotarySlider::mouseUp(const juce::MouseEvent& event)
 {
     juce::Slider::mouseUp(event);
-
     juce::Desktop::getInstance().getMainMouseSource().setScreenPosition(event.source.getLastMouseDownPosition());
-
     setMouseCursor(juce::MouseCursor::NormalCursor);
 }
