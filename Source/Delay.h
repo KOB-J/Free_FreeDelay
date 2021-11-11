@@ -25,11 +25,15 @@ public:
         float& dryWetParameter,
         float& feedbackParameter);
     void reset();
+    float linearInterpolation(float x, float x1, float interleave);
 
 private:
     juce::AudioSampleBuffer delayBuffer;
     int delayBufferLength;
-    int delayReadPosition, delayWritePosition;
+    int delayReadPosition;
+    int delayWritePosition;
+    float delayLenghtSmoothed;
+    int counter = 0;
 
     float delayLength; 
     float dryMix;      

@@ -23,6 +23,8 @@ Delay::Delay(): delayBuffer(2, 1)
 
     delaySampleRate = 0.0;
     delaySamplesPerBlock = 0;
+
+    delayLenghtSmoothed = delayLength;
 }
 
 Delay::~Delay()
@@ -46,21 +48,20 @@ void Delay::prepare(double& sampleRate, int& samplesPerBlock)
 
 void Delay::process(juce::AudioBuffer<float>& buffer, float& delayLengthParameter, float& dryWetParameter, float& feedbackParameter)
 {
-    dryMix = 1 - dryWetParameter;
+    dryMix = 1.0f - dryWetParameter;
     wetMix = dryWetParameter;
     delayLength = delayLengthParameter;
     feedback = feedbackParameter;
 
-    delayReadPosition = (int)(delayWritePosition - (delayLength * delaySampleRate) + delayBufferLength) % delayBufferLength;
+    float entryDelayLenght = delayLength;
 
     const int numChannels = buffer.getNumChannels();    
     const int numSamples = buffer.getNumSamples();
-    int channel, blockDelayReadPosition, blockDelayWritePosition;
-    //TODO Interpolation
+    int channel = 0, blockDelayReadPosition, blockDelayWritePosition;
+
     for (channel = 0; channel < numChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer(channel);
-
         float* delayData = delayBuffer.getWritePointer(juce::jmin(channel, delayBuffer.getNumChannels() - 1));
 
         blockDelayReadPosition = delayReadPosition;
@@ -68,12 +69,33 @@ void Delay::process(juce::AudioBuffer<float>& buffer, float& delayLengthParamete
 
         for (int i = 0; i < numSamples; ++i)
         {
+            blockDelayReadPosition = (int)(blockDelayWritePosition - (int)(delayLenghtSmoothed * delaySampleRate) + delayBufferLength) % delayBufferLength;
+
+            float delayReadPositionFloat = blockDelayWritePosition - (delayLenghtSmoothed * delaySampleRate);
+            if (delayReadPositionFloat < 0) {
+                delayReadPositionFloat += (float)delayBufferLength;
+            }
+
+            float interpolatedSample = delayData[blockDelayReadPosition];
+
+            //******** Uncomment, if you want to use intermolation fonction    ***********************
+            //int delayReadPosition_x = (int)(blockDelayWritePosition - (delayLenghtSmoothed * delaySampleRate) + delayBufferLength) % delayBufferLength;
+            //int delayReadPosition_x1 = (int)(blockDelayWritePosition - (delayLenghtSmoothed * delaySampleRate) + 1 + delayBufferLength) % delayBufferLength;
+            //float delayReadPositionInterleave = delayReadPositionFloat - delayReadPosition_x;
+            //float interpolatedSample = linearInterpolation(delayData[delayReadPosition_x], delayData[delayReadPosition_x1], delayReadPositionInterleave);
+
             const float in = channelData[i];
             float out = 0.0;
 
-            out = (dryMix * in + wetMix * delayData[blockDelayReadPosition]);
+            float centerGain = 1.2f;
+            out = (dryMix + (dryMix * centerGain * juce::jmin<float>(dryMix, wetMix))) * in
+                + (wetMix + (wetMix * centerGain * juce::jmin<float>(dryMix, wetMix))) * interpolatedSample;
+            //out = dryMix * in + wetMix * interpolatedSample;
 
-            delayData[blockDelayWritePosition] = in + (delayData[blockDelayReadPosition] * feedback);
+            if (delayLenghtSmoothed != delayLength)
+                interpolatedSample = 0.0f;
+
+            delayData[blockDelayWritePosition] = in + (interpolatedSample * feedback);
 
             if (++blockDelayReadPosition >= delayBufferLength)
                 blockDelayReadPosition = 0;
@@ -84,6 +106,13 @@ void Delay::process(juce::AudioBuffer<float>& buffer, float& delayLengthParamete
         }
     }
 
+    if (entryDelayLenght == delayLength) counter++;
+
+    if (counter == 60) {
+        counter = 0;
+        delayLenghtSmoothed = delayLength;
+    }
+
     delayReadPosition = blockDelayReadPosition;
     delayWritePosition = blockDelayWritePosition;
 }
@@ -91,4 +120,9 @@ void Delay::process(juce::AudioBuffer<float>& buffer, float& delayLengthParamete
 void Delay::reset()
 {
     delayBuffer.clear();
+}
+
+float Delay::linearInterpolation(float x, float x1, float interleave)
+{
+    return (1 - interleave) * x + interleave * x1;
 }
