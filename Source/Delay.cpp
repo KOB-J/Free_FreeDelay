@@ -25,6 +25,7 @@ Delay::Delay(): delayBuffer(2, 1)
     delaySamplesPerBlock = 0;
 
     delayLenghtSmoothed = delayLength;
+    counter = 0;
 }
 
 Delay::~Delay()

@@ -33,7 +33,7 @@ private:
     int delayReadPosition;
     int delayWritePosition;
     float delayLenghtSmoothed;
-    int counter = 0;
+    int counter;
 
     float delayLength; 
     float dryMix;      
